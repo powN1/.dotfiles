@@ -1,0 +1,7 @@
+I am using gnustow for managing dotfiles. 
+The directory for dotfiles has to be in ~/ path and it has to be called .dotfiles (I think)
+
+The structure inside has to be the same as in your ~/ path meaning if u want to symlink nvim config
+to the ~/.config/nvim directory then you have to have .config/nvim directory structured like this in your .dotfiles
+
+To symlink files in .dotfiles simply run "stow ." inside .dotfiles directory
