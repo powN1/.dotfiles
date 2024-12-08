@@ -11,26 +11,31 @@ return {
           -- It gets rid of the space between the buffer and the very left edge (foldcolumn = 0)
           -- Same filetypes should be disabled for ufo plugin too (ufo.lua file)
           -- You can get filetypes with vim.bo.filetype
-          ft_ignore = { "nvcheatsheet", "NvimTree", "terminal", "nvdash", "Trouble", "neogit" },
+          ft_ignore = { "nvcheatsheet", "NvimTree", "terminal", "nvdash", "Trouble" },
           -- setopt = true,
           relculright = true,
           segments = {
             -- A little space from the very left edge
             { text = { " " } },
+
             -- Diagnostics icons
+            -- { sign = { namespace = { "diagnostic/signs" }, maxwidth = 1 }, click = "v:lua.ScSa" },
+
+            -- Errors and gitsigns in the same row. Error have higher priority.
             {
-              sign = { name = { "Diagnostic" }, maxwidth = 1 },
+              sign = { namespace = { "diagnostic/signs", "gitsigns" }, maxwidth = 1, colwidth = 1, auto = false },
               click = "v:lua.ScSa",
             },
+
+            { text = { " " } },
+
             -- Line numbers
             { text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
+
             -- Chevrons
             { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
-            {
-              sign = { name = { ".*" }, maxwidth = 1, colwidth = 1, auto = true },
-              click = "v:lua.ScSa",
-            },
-            -- A little space between folding chevrons and code!
+
+            -- Padding
             { text = { " " } },
           },
         }
@@ -45,6 +50,7 @@ return {
       local sufWidth = vim.fn.strdisplaywidth(suffix)
       local targetWidth = width - sufWidth
       local curWidth = 0
+
       for _, chunk in ipairs(virtText) do
         local chunkText = chunk[1]
         local chunkWidth = vim.fn.strdisplaywidth(chunkText)
@@ -63,7 +69,9 @@ return {
         end
         curWidth = curWidth + chunkWidth
       end
+
       table.insert(newVirtText, { suffix, "MoreMsg" })
+
       return newVirtText
     end
 
@@ -79,10 +87,10 @@ return {
 
     -- Ufo keymaps had to be put here cuz if it's in custom/mappings.lua then for some reason
     -- it doesn't override the default keymapping (zR, zM)
-    -- vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-    -- vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-    -- vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
-    -- vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
+    vim.keymap.set("n", "zR", require("ufo").openAllFolds)
+    vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
+    vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
+    vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
 
     -- A function to disable ufo indenting for certain filetypes (buffers, like terminal etc).
     -- It gets rid of the space between the buffer and the very left edge (foldcolumn = 0)

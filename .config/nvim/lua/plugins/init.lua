@@ -19,8 +19,11 @@ if not vim.g.vscode then
   table.insert(plugins, { import = "plugins.spec.ts-context-commentstring" })
   table.insert(plugins, { import = "plugins.spec.rainbow-delimiters" })
   table.insert(plugins, { import = "plugins.override.whichkey" })
-  table.insert(plugins, { import = "plugins.spec.mini-files" })
+  -- table.insert(plugins, { import = "plugins.spec.mini-files" })
   table.insert(plugins, { import = "plugins.spec.neogit" })
+  table.insert(plugins, { import = "plugins.spec.nvim-surround" })
+  -- table.insert(plugins, { import = "plugins.spec.auto-session" })
+  table.insert(plugins, { import = "plugins.spec.todo-comments" })
 end
 
 -- Run at all times

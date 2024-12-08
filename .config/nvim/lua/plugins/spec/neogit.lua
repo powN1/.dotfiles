@@ -7,6 +7,11 @@ return {
     -- Only one of these is needed, not both.
     "nvim-telescope/telescope.nvim", -- optional
   },
+  init = function ()
+    local map = vim.keymap.set
+
+    map("n", "<leader>ng", "<cmd>Neogit<cr>", { desc = "Neogit open" })
+  end,
   config = true,
   lazy = false
 }

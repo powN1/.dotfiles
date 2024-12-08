@@ -1,4 +1,3 @@
-
 local cmp = require "cmp"
 
 dofile(vim.g.base46_cache .. "cmp")
@@ -146,9 +145,14 @@ local options = {
       behavior = cmp.ConfirmBehavior.Insert,
       select = false,
     },
+
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.select_next_item()
+        if require("luasnip").jumpable(1) then
+          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+        else
+          cmp.select_next_item()
+        end
       elseif require("luasnip").expand_or_jumpable() then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
       else
@@ -158,9 +162,14 @@ local options = {
       "i",
       "s",
     }),
+
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.select_prev_item()
+        if require("luasnip").jumpable(-1) then
+          vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+        else
+          cmp.select_prev_item()
+        end
       elseif require("luasnip").jumpable(-1) then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
       else
@@ -177,7 +186,7 @@ local options = {
     { name = "buffer", keyword_length = 5 },
     { name = "nvim_lua" },
     { name = "path" },
-    { name ="cmdline" }
+    { name = "cmdline" },
   },
 }
 
@@ -189,6 +198,8 @@ return {
   {
     "hrsh7th/nvim-cmp",
     event = { "InsertEnter", "CmdlineEnter" },
+    -- jsregexp is needed for snippets to be able to capitalize letters (setState for example)
+    build = "make install_jsregexp",
     dependencies = {
       {
         -- snippet plugin
@@ -196,7 +207,7 @@ return {
         dependencies = "rafamadriz/friendly-snippets",
         opts = { history = true, updateevents = "TextChanged,TextChangedI" },
       },
-      { "hrsh7th/cmp-cmdline" },
+      -- { "hrsh7th/cmp-cmdline" },
     },
     opts = options,
   },

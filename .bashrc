@@ -160,3 +160,4 @@ export PATH="$HOME/.config/emacs/bin:$PATH"
 
 export PATH="/usr/bin:$PATH"
 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

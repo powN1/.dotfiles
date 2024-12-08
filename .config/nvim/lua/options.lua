@@ -16,6 +16,7 @@ opt.cursorlineopt = "both"
 opt.expandtab = true
 opt.shiftwidth = 2
 opt.smartindent = true
+-- opt.autoindent = true
 opt.tabstop = 2
 opt.softtabstop = 2
 
@@ -58,6 +59,8 @@ opt.foldlevelstart = 99
 opt.foldenable = true
 opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
+-- Enable vim incrementation for letters aswell
+opt.nrformats:append("alpha")
 
 -- This command makes sure that when you navigate to the next line (with o) when you are on a commented line
 -- that the next line is not a comment (lua and js files).

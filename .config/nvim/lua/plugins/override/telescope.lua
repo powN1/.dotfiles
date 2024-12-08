@@ -1,5 +1,10 @@
 return {
   "nvim-telescope/telescope.nvim",
+  opts = {
+    defaults = {
+      file_ignore_patterns = {"node_modules"}
+    }
+  },
   init = function()
     local map = vim.keymap.set
 

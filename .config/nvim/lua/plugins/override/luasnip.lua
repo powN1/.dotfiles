@@ -5,8 +5,42 @@ return {
 
     local map = vim.keymap.set
     local ls = require "luasnip"
+    local s = ls.snippet
+    local t = ls.text_node
+    local i = ls.insert_node
+    local f = ls.function_node
+    local fmt = require("luasnip.extras.fmt").fmt
 
     require("luasnip.loaders.from_vscode").lazy_load { paths = { vim.fn.stdpath "config" .. "/snippets/vscode" } }
+
+    -- Function to check if 'useState' import exists
+    -- local function ensure_useState_import()
+    --   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+    --   for _, line in ipairs(lines) do
+    --     if line:match "import {.*useState.*} from 'react'" then
+    --       return ""
+    --     end
+    --   end
+    --   return "import { useState } from 'react';\n\n"
+    -- end
+
+    -- Define your snippets
+    -- ls.add_snippets("javascriptreact", {
+    --   s(
+    --     "us",
+    --     fmt(
+    --       [[
+    -- {}const [{}, set{}] = useState({});
+    -- ]],
+    --       {
+    --         f(ensure_useState_import, {}),
+    --         i(1, "state"),
+    --         i(2, "State"),
+    --         i(3, "initialValue"),
+    --       }
+    --     )
+    --   ),
+    -- })
 
     map({ "s", "i" }, "<C-y>", function()
       ls.expand()

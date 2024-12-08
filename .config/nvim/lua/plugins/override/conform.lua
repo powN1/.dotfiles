@@ -5,7 +5,7 @@ return {
     init = function()
       vim.keymap.set("n", "<leader>fm", function()
         require("conform").format { lsp_fallback = true }
-        require("conform").formatters.lua = { prepend_args = { "--column-width", "170" } }
+        -- require("conform").formatters.lua = { prepend_args = { "--column-width", "170" } }
       end, { desc = "Format files" })
     end,
     opts = {
@@ -14,8 +14,8 @@ return {
         css = { "prettierd" },
         scss = { "prettierd" },
         html = { "prettierd" },
-        javascript = { "biome" },
-        javascriptreact = { "biome" },
+        javascript = { "prettierd" },
+        javascriptreact = { "prettierd" },
         json = { "biome" },
         jsonc = { "biome" },
         markdown = { "prettierd" },
@@ -27,6 +27,15 @@ return {
       -- Custom configs for formatters
       formatters = {
         stylua = { prepend_args = { "--column-width", "140" } },
+        prettierd = {
+          command = "prettierd",
+          args = { "--stdin-filepath", "$FILENAME" }, -- Ensure only one file is passed
+          stdin = true, -- Pass content via stdin
+          env = {
+            -- Specify the path to your global Prettier config
+            PRETTIERD_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/.prettierdrc.json"), -- Path to your global config
+          },
+        },
       },
     },
     format_on_save = {

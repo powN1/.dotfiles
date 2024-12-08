@@ -44,15 +44,14 @@ M.ui = {
     -- Cursor = { bg = "#ffffff" },
 
     -- Color of the current line when selecting files in telescope
-    TelescopeSelection = { bg = "one_bg3" },
+    TelescopeSelection = { fg = "#ffffff", bg = "one_bg3" },
 
     -- UFO arrows
     FoldColumn = { fg = "#777777", bg = "NONE" },
 
-    TblineFill = { bg = "#ccc222", fg = "white" },
-    TbLineBufOn = { bg = "#ffffff" },
-    TbLineBufOnClose = { bg = { "one_bg3", 0 } },
-    TbLineBufOnModified = { bg = { "one_bg3", 0 } },
+    TbBufOn = { bg = { "one_bg3", 2 } },
+    TbBufOnClose = { bg = { "one_bg3", 2 } },
+    TbBufOnModified = { bg = { "one_bg3", 2 } },
 
     -- TblineFill = { bg = "#ccc222", fg = "white" },
     -- TbLineBufOn = { bg = "#ccc222", fg = "white" },
@@ -74,8 +73,13 @@ M.ui = {
     ["@punctuation.delimiter"] = { link = "variable" },
     ["@punctuation.bracket"] = { link = "variable" },
     ["@tag.delimiter"] = { link = "variable" },
+
+    -- Floating window for lsp.hover() (shift+k)
+    -- ["NormalFloat"] = { bg = { "one_bg3", -3 } },
   },
   hl_add = {
+
+    -- LeapBackdrop = { link = "Comment" },
     -- Highlights not related strictly to nvchad
     ["@keyword.import"] = { link = "@keyword.return" },
     ["RainbowDelimiterYellow"] = { fg = "#e5c100" },
@@ -88,8 +92,8 @@ M.ui = {
 
 M.base46 = {
   integrations = {
-    "tbline"
-  }
+    "tbline",
+  },
 }
 -- In order for react snippets to work in .js files I had to add change
 -- .local/share/nvim/lazy/friendly-snippets/package.json file
