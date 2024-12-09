@@ -33,7 +33,7 @@ return {
           stdin = true, -- Pass content via stdin
           env = {
             -- Specify the path to your global Prettier config
-            PRETTIERD_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/.prettierdrc.json"), -- Path to your global config
+            PRETTIERD_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/.prettierrc.json"), -- Path to your global config
           },
         },
       },

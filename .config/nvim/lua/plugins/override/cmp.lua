@@ -27,7 +27,7 @@ local formatting_style = {
         -- Display which LSP servers this item came from.
         pcall(function()
           local lspName = _.source.source.client.name
-          if lspName == "tsserver" then
+          if lspName == "ts_ls" then
             lspserver_name = "TSS"
           elseif lspName == "emmet_language_server" then
             lspserver_name = "Emmet"
@@ -139,6 +139,8 @@ local options = {
     ["<Down>"] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    -- if you are using default tmux prefix (ctrl+space) this could cause an issue because u
+    -- would have to hit c-space twice for this keymap to active (first one being tmux prefix)
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm {

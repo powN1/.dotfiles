@@ -1,18 +1,13 @@
--- This file  needs to have same structure as nvconfig.lua
--- https://github.com/NvChad/NvChad/blob/v2.5/lua/nvconfig.lua
+-- This file needs to have same structure as nvconfig.lua
+-- https://github.com/NvChad/ui/blob/v3.0/lua/nvconfig.lua
+-- Please read that file to know all available options :(
 
 ---@type ChadrcConfig
 local M = {}
 
-local VSCodeRunning = false
-VSCodeRunning = vim.g.vscode and true or false
-
-M.ui = {
-  transparency = true,
+M.base46 = {
   theme = "onedark",
-  -- statusline = {
-  --   order = ""
-  -- },
+  transparency = true,
   nvdash = {
     load_on_startup = not VSCodeRunning,
     header = {
@@ -32,7 +27,6 @@ M.ui = {
       "     ⠸⠿  ⠿  ⠸⠿  ⠿⠷⠶⠿⠃⠸⠿⠄⠙⠷⠤⠿⠉⠉⠿⠆   ",
     },
   },
-
   hl_override = {
     Comment = { italic = false },
     ["@comment"] = { italic = false },
@@ -44,7 +38,7 @@ M.ui = {
     -- Cursor = { bg = "#ffffff" },
 
     -- Color of the current line when selecting files in telescope
-    TelescopeSelection = { fg = "#ffffff", bg = "one_bg3" },
+    TelescopeSelection = { fg = "#dddddd", bg = "one_bg3" },
 
     -- UFO arrows
     FoldColumn = { fg = "#777777", bg = "NONE" },
@@ -76,9 +70,11 @@ M.ui = {
 
     -- Floating window for lsp.hover() (shift+k)
     -- ["NormalFloat"] = { bg = { "one_bg3", -3 } },
+
+    -- Color of the file path in statusline
+    St_EmptySpace = { fg = "#aaaaaa", bg = "NONE" },
   },
   hl_add = {
-
     -- LeapBackdrop = { link = "Comment" },
     -- Highlights not related strictly to nvchad
     ["@keyword.import"] = { link = "@keyword.return" },
@@ -87,18 +83,33 @@ M.ui = {
     ["RainbowDelimiterGreen"] = { fg = "#0ac007" },
     ["RainbowDelimiterViolet"] = { fg = "#DA70D6" },
     ["RainbowDelimiterCyan"] = { fg = "#38dcdd" },
+
   },
 }
 
-M.base46 = {
-  integrations = {
-    "tbline",
+M.ui = {
+  -- check :h nvui for options
+  statusline = {
+    theme = "default",
+    separator_style = "block",
+    order = { "mode", "filePath", "git", "%=", "lsp_msg", "%=", "lsp", "cwd" },
+    modules = {
+      -- abc = function()
+      --   return ""
+      -- end,
+      filePath = "%f",
+    },
   },
-}
--- In order for react snippets to work in .js files I had to add change
--- .local/share/nvim/lazy/friendly-snippets/package.json file
--- and connect "react.json" to "javascript" files.
 
+  cmp = {
+    -- style = "flat_light", -- default/flat_light/flat_dark/atom/atom_colored
+    format_colors = {
+      tailwind = true,
+    },
+  },
+
+  telescope = { style = "bordered" }, -- borderless / bordered
+}
 -- Display only "mode" when neovim is run in vscode
 -- if VSCodeRunning then
 --   M.ui.statusline = {
