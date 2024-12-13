@@ -143,19 +143,14 @@ export FZF_ALT_C_COMMAND="fdfind --type d . --color=never --hidden"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -50'"
 
 # make terminal path shorter
-PROMPT_DIRTRIM=1
+PROMPT_DIRTRIM=2
 
 # bun
-# export BUN_INSTALL="$HOME/.bun"
 export BUN_INSTALL="$HOME/$USER/.bun"
-export PATH=$BUN_INSTALL/bin:$PATH
-
-# bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
 # doom emacs
-
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="/usr/bin:$PATH"
 
@@ -173,3 +168,9 @@ function y() {
 
 # Set default editor to nvim
 export EDITOR=nvim
+
+# This will instruct lazygit to open both config files, merge them, and then boot.
+# You can add more config files, delimited by a comma, to this list
+
+# Lazygit theme
+# alias lazygit="lazygit --use-config-file=$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/frappe-peach.yml"

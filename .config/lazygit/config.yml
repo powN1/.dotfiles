@@ -1,0 +1,6 @@
+gui:
+  theme:
+    selectedLineBgColor:
+      - '#444444'
+    optionsTextColor:
+      - yellow
