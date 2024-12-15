@@ -106,3 +106,5 @@ fi
 pushd "$DOTFILES_DIR" 2>&1 > /dev/null
 # Run ansible playbook to install all the things
 ansible-playbook "$DOTFILES_DIR/main.yml" "$@" --ask-become-pass
+rm -f ~/.bashrc
+stow .
