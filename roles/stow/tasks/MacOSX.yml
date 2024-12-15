@@ -1,0 +1,5 @@
+---
+- name: "STOW | MacOSX | Install stow"
+  community.general.homebrew:
+    name: stow
+    state: present
