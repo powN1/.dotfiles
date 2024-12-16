@@ -108,9 +108,30 @@ pushd "$DOTFILES_DIR" 2>&1 > /dev/null
 ansible-playbook "$DOTFILES_DIR/main.yml" "$@" --ask-become-pass
 
 rm -f ~/.bashrc
-stow .
 printf "${LGREEN} Symlinking files with gnustow\n"
+if stow .; then
+    echo "Stow operation completed. Files symlinked."
+else
+    echo "Error: Stow operation failed."
+    exit 1
+fi
 
 printf "${LGREEN} Sourcing .bashrc file\n"
-source ~/.bashrc
+BASH_FILE="~/.bashrc"
+if ! [[ -f "$BASH_FILE" ]] >/dev/null 2>&1; then
+    echo "Error: File $BASH_FILE does not exist. Exiting."
+    exit 1
+else
+    source "$BASH_FILE"
+fi
+
+printf "${LGREEN} Sourcing tmux.conf file\n"
+TMUX_CONF_FILE="~/.dotfiles/.config/tmux/tmux.conf"
+if ! [[ -f "$TMUX_CONF_FILE" ]] >/dev/null 2>&1; then
+    echo "Error: File $TMUX_CONF_FILE does not exist. Exiting."
+    exit 1
+    source "$TMUX_CONF_FILE"
+else
+fi
+
 printf "${GREEN} All installed. Don't forget to reboot for good measure\n"
