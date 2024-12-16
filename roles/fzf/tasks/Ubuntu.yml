@@ -11,3 +11,10 @@
     depth: 1
     dest: "{{ ansible_user_dir }}/.fzf"
   notify: "Install FZF"
+
+- name: "FZF | {{ ansible_distribution }} | Dependencies"
+  ansible.builtin.apt:
+    name:
+      - fd-find
+    state: present
+  become: true
