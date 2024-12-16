@@ -23,6 +23,7 @@ return {
         typescriptreact = { "biome" },
         lua = { "stylua" },
         toml = { "taplo" },
+        bash = { "shellcheck" }
       },
       -- Custom configs for formatters
       formatters = {

@@ -71,7 +71,7 @@ else
   -- Neovim mappings
   map("i", "jk", "<ESC>", { desc = "Exit insert mode" })
   map({ "n", "i", "v" }, "<C-s>", "<ESC><cmd>w<CR>", { desc = "Save file" })
-  map("n", "<C-z>", "<NOP>", { desc = "Unmap force closing with <C-z>" })
+  -- map("n", "<C-z>", "<NOP>", { desc = "Unmap force closing with <C-z>" })
   map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "Copy whole file" })
   map("n", "<leader>of", function()
     vim.ui.open(vim.fn.expand "%:p:h")
