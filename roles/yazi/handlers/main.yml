@@ -1,0 +1,12 @@
+---
+- name: Cleanup yazi downloaded zip
+  ansible.builtin.file:
+    path: "/tmp/{{ yazi_file }}.zip"
+    state: absent
+  become: true
+
+- name: Remove extracted yazi directory
+  ansible.builtin.file:
+    path: /tmp/{{ yazi_file }}
+    state: absent
+  become: true
