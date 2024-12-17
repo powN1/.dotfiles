@@ -1,1 +1,8 @@
 stow_setup.txt
+.git
+
+# Ignore ansible files
+bin
+pre_tasks
+roles
+main.yml
