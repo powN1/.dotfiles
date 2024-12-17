@@ -1,4 +1,11 @@
 ---
+- name: "Tmux | {{ ansible_distribution }} | Dependencies"
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm.git
+    dest: "{{ ansible_user_dir }}/.tmux/plugins/tpm"
+    update: no
+  become: true
+
 - name: "Tmux | {{ ansible_distribution }} | Install tmux"
   ansible.builtin.apt:
     name: tmux

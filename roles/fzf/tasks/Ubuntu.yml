@@ -14,7 +14,6 @@
 
 - name: "FZF | {{ ansible_distribution }} | Dependencies"
   ansible.builtin.apt:
-    name:
-      - fd-find
+    name: fd-find
     state: present
   become: true

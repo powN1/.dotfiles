@@ -1,6 +1,0 @@
----
-- name: Remove extracted nodejs directory
-  ansible.builtin.file:
-    path: /tmp/nodejs
-    state: absent
-  become: true

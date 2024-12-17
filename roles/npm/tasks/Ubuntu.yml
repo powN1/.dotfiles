@@ -1,4 +1,9 @@
 ---
+- name: "NPM | {{ ansible_distribution }} | Dependencies"
+  ansible.builtin.apt:
+    name: jq
+    state: present
+  become: true
 - name: "NPM | Get latest STABLE NodeJS version"
   ansible.builtin.shell:
     cmd: curl -sL https://nodejs.org/dist/index.json | jq -r '.[] | select(.lts) | .version' | head -n 1
@@ -69,9 +74,9 @@
     - name: "NPM | Copy NodeJS"
       ansible.builtin.copy:
         src: /tmp/{{ nodejs_package_name }}/bin/
-        dest: /usr/local/bin/*
+        dest: /usr/local/bin/
         remote_src: true
-        mode: "0644"
+        mode: "0755"
 
     - name: NPM | Ensure NodeJS Modules directory exists
       ansible.builtin.file:
@@ -84,7 +89,7 @@
         src: /tmp/{{ nodejs_package_name }}/lib/node_modules/
         dest: /usr/local/lib/node_modules/*
         remote_src: true
-        mode: "0644"
+        mode: "0755"
 
 # - name: "NPM | Install NPM Packages"
 #   community.general.npm:
