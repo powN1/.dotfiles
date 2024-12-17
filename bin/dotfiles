@@ -70,6 +70,19 @@ function _cmd {
   exit 1
 }
 
+function set_git_credentials {
+  printf "${SEA} Configuring git credentials\n"
+  printf "${SEA} Enter git email\n"
+  read email
+
+  printf "${SEA} Enter git name"
+  read name
+  git config --global user.email $email
+  git config --global user.name $name
+  git config --global credential.helper store
+  printf "${GREEN} Git credentials configured!\n"
+}
+
 function ubuntu_setup() {
 	# Checking for Ansible installation
   if ! dpkg -s ansible >/dev/null 2>&1; then
@@ -92,6 +105,8 @@ function ubuntu_setup() {
         __task "Python already installed"
     fi
 }
+
+set_git_credentials
 ubuntu_setup
 
 if ! [[ -d "$DOTFILES_DIR" ]]; then
