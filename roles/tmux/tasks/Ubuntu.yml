@@ -13,8 +13,6 @@
   become: true
 
 - name: "Tmux | {{ ansible_distribution }} | Install tmux plugins"
-  ansible.builtin.shell: |
-    tmux new-session -d -s temp_session
-    tmux run-shell "~/.tmux/plugins/tpm/scripts/install_plugins.sh"
-    tmux kill-session -t temp_session
+  ansible.builtin.shell: 
+    cmd: ~/.tmux/plugins/tpm/bin/install_plugins
   become: false
