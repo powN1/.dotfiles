@@ -71,11 +71,11 @@ function _cmd {
 }
 
 function set_git_credentials {
-  printf "${SEA}Configuring git credentials\n"
-  printf "${SEA}Enter git email\n"
+  printf "${LGREEN}Configuring git credentials\n"
+  printf "${SEA}Enter git email\n${RESTORE}"
   read email
 
-  printf "${SEA}Enter git name\n"
+  printf "${SEA}Enter git name\n${RESTORE}"
   read name
   git config --global user.email $email
   git config --global user.name $name
@@ -106,8 +106,9 @@ function ubuntu_setup() {
     fi
 }
 
+# If there is not git credentials file then ask user for git credentials
 if ! [[ -f "$HOME/.git-credentials" ]]; then
-	set_gir_credentials
+	set_git_credentials
 else
 	printf "${LGREEN}Git credentials exist. Skipping.\n"
 fi
