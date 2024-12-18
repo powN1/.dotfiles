@@ -71,16 +71,16 @@ function _cmd {
 }
 
 function set_git_credentials {
-  printf "${SEA} Configuring git credentials\n"
-  printf "${SEA} Enter git email\n"
+  printf "${SEA}Configuring git credentials\n"
+  printf "${SEA}Enter git email\n"
   read email
 
-  printf "${SEA} Enter git name"
+  printf "${SEA}Enter git name\n"
   read name
   git config --global user.email $email
   git config --global user.name $name
   git config --global credential.helper store
-  printf "${GREEN} Git credentials configured!\n"
+  printf "${GREEN}Git credentials configured!\n"
 }
 
 function ubuntu_setup() {
@@ -106,7 +106,12 @@ function ubuntu_setup() {
     fi
 }
 
-set_git_credentials
+if ! [[ -f "$HOME/.git-credentials" ]]; then
+	set_gir_credentials
+else
+	printf "${LGREEN}Git credentials exist. Skipping.\n"
+fi
+
 ubuntu_setup
 
 if ! [[ -d "$DOTFILES_DIR" ]]; then
@@ -123,7 +128,7 @@ pushd "$DOTFILES_DIR" 2>&1 > /dev/null
 ansible-playbook "$DOTFILES_DIR/main.yml" "$@" --ask-become-pass
 
 rm -f ~/.bashrc
-printf "${LGREEN} Symlinking files with gnustow\n"
+printf "${LGREEN}Symlinking files with gnustow\n"
 if stow .; then
     echo "Stow operation completed. Files symlinked."
 else
@@ -131,8 +136,8 @@ else
     exit 1
 fi
 
-printf "${LGREEN} Sourcing .bashrc file\n"
-BASH_FILE="~/.bashrc"
+printf "${LGREEN}Sourcing .bashrc file\n"
+BASH_FILE="$HOME/.bashrc"
 if ! [[ -f "$BASH_FILE" ]] >/dev/null 2>&1; then
     echo "Error: File $BASH_FILE does not exist. Exiting."
     exit 1
@@ -140,7 +145,7 @@ else
     source "$BASH_FILE"
 fi
 
-printf "${LGREEN} Sourcing tmux.conf file\n"
+printf "${LGREEN}Sourcing tmux.conf file\n"
 TMUX_CONF_FILE="~/.dotfiles/.config/tmux/tmux.conf"
 if ! [[ -f "$TMUX_CONF_FILE" ]] >/dev/null 2>&1; then
     echo "Error: File $TMUX_CONF_FILE does not exist. Exiting."
@@ -149,4 +154,4 @@ if ! [[ -f "$TMUX_CONF_FILE" ]] >/dev/null 2>&1; then
 else
 fi
 
-printf "${GREEN} All installed. Don't forget to reboot for good measure\n"
+printf "${GREEN}All installed. Don't forget to reboot for good measure\n"
