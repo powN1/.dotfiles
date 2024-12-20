@@ -174,3 +174,7 @@ export EDITOR=nvim
 
 # Lazygit theme
 # alias lazygit="lazygit --use-config-file=$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/frappe-peach.yml"
+
+# Starship (cli prompt customization)
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+eval "$(starship init bash)"
