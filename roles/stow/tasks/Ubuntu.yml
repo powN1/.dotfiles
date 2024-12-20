@@ -1,6 +1,12 @@
 ---
-- name: "GNU Stow | {{ ansible_distribution }} | Install gnu stow"
+- name: "{{ ansible_distribution }} | Install gnu stow"
   ansible.builtin.apt:
     name: stow
     state: present
   become: true
+
+- name: "{{ ansible_distribution }} | Symlink files"
+  ansible.builtin.shell:
+    cmd: rm -rf $HOME/.bashrc && cd $HOME/.dotfiles && stow .
+  args:
+    executable: /bin/bash

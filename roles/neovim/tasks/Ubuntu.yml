@@ -1,5 +1,5 @@
 ---
-- name: "Neovim | {{ ansible_distribution }} | Dependencies"
+- name: "{{ ansible_distribution }} | Dependencies"
   ansible.builtin.apt:
     name:
       - cmake
@@ -12,7 +12,7 @@
     state: present
   become: true
 
-- name: "Neovim | {{ ansible_distribution }} | Install via snap"
+- name: "{{ ansible_distribution }} | Install via snap"
   ansible.builtin.shell:
     cmd: snap install nvim --stable --classic
   become: true

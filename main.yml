@@ -26,10 +26,10 @@
         - always
 
   roles:
+    - stow
     - npm
     - tmux
     - neovim
     - lazygit
     - fzf
-    - stow
     - yazi

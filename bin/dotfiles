@@ -126,16 +126,6 @@ fi
 # Cd into dotfiles dir
 pushd "$DOTFILES_DIR" 2>&1 > /dev/null
 
-# Symlink files with stow
-rm -f ~/.bashrc
-printf "${LGREEN}Symlinking files with gnustow\n"
-if stow .; then
-    echo "Stow operation completed. Files symlinked."
-else
-    echo "Error: Stow operation failed."
-    exit 1
-fi
-
 # Run ansible playbook to install all the things
 ansible-playbook "$DOTFILES_DIR/main.yml" "$@" --ask-become-pass
 

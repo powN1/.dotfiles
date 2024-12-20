@@ -1,19 +1,19 @@
 ---
-- name: "Yazi | Download Latest Version JSON"
+- name: "Download Latest Version JSON"
   ansible.builtin.uri:
     url: https://api.github.com/repos/sxyazi/yazi/releases/latest
   register: yazi_latest_version_json
   changed_when: false
 
-- name: "Yazi | Registering yazi Latest Release"
+- name: "Registering yazi Latest Release"
   ansible.builtin.set_fact:
     yazi_latest_release: "{{ yazi_latest_version_json.json.tag_name }}"
 
-- name: "Yazi | Registering yazi Latest Version"
+- name: "Registering yazi Latest Version"
   ansible.builtin.set_fact:
     yazi_latest_version: "{{ yazi_latest_release.stdout | default('') }}"
 
-- name: "Yazi | Getting version information"
+- name: "Getting version information"
   ansible.builtin.shell:
     cmd: /usr/local/bin/yazi --version | grep -oP 'version=\K[^,]+' | awk 'NR==1' | sed 's/^/v/'
   args:
@@ -22,29 +22,29 @@
   changed_when: false
   failed_when: false
 
-- name: "Yazi | Show current_yazi_version debug"
+- name: "Show current_yazi_version debug"
   ansible.builtin.debug:
     var: current_yazi_version.stdout
 
-- name: "Yazi | Show yazi_latest_release debug"
+- name: "Show yazi_latest_release debug"
   ansible.builtin.debug:
     var: yazi_latest_release
 
-- name: "yazi | Install"
+- name: "Install"
   when: yazi_latest_release not in current_yazi_version.stdout|default('')
   block:
     # regex_replace('^.', '') removes the first character from the string (the 'v' in the version number)
-    - name: "yazi | Define yazi_file"
+    - name: "Define yazi_file"
       ansible.builtin.set_fact:
         yazi_file: "yazi-x86_64-unknown-linux-gnu"
 
-    - name: "yazi | Ensure clean download destination"
+    - name: "Ensure clean download destination"
       ansible.builtin.file:
         path: "/tmp/{{ yazi_file }}.zip"
         state: absent
       become: true
 
-    - name: "yazi | Downloading yazi Release"
+    - name: "Downloading yazi Release"
       ansible.builtin.get_url:
         url: "https://github.com/sxyazi/yazi/releases/download/{{ yazi_latest_release }}/{{ yazi_file }}.zip"
         dest: /tmp/
@@ -53,24 +53,24 @@
       notify:
         - Cleanup yazi downloaded zip
 
-    - name: "yazi | Ensure clean extraction destination"
+    - name: "Ensure clean extraction destination"
       ansible.builtin.file:
         path: "/tmp/{{ yazi_file }}"
         state: absent
       become: true
 
-    - name: "yazi | Extract yazi zip file"
+    - name: "Extract yazi zip file"
       ansible.builtin.unarchive:
         src: "/tmp/{{ yazi_file }}.zip"
         dest: /tmp
 
-    - name: "yazi | Remove any current yazi installations"
+    - name: "Remove any current yazi installations"
       ansible.builtin.file:
         path: /usr/local/bin/yazi
         state: absent
       become: true
 
-    - name: "yazi | Install yazi"
+    - name: "Install yazi"
       ansible.builtin.copy:
         remote_src: true
         src: /tmp/{{ yazi_file }}/yazi
