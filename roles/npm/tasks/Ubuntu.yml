@@ -86,10 +86,15 @@
 
     - name: "Copy NodeJS Modules"
       ansible.builtin.copy:
-        src: /tmp/{{ nodejs_package_name }}/lib/node_modules/
-        dest: /usr/local/lib/node_modules/*
+        src: /tmp/{{ nodejs_package_name }}/lib/node_modules/*
+        dest: /usr/local/lib/node_modules/
         remote_src: true
         mode: "0755"
+
+    - name: "Symlink npm/npx executable to /usr/local/bin/"
+      ansible.builtin.shell:
+        cmd: ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && 
+          ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npm
 
 # - name: "Install NPM Packages"
 #   community.general.npm:
