@@ -86,7 +86,7 @@
 
     - name: "Copy NodeJS Modules"
       ansible.builtin.copy:
-        src: /tmp/{{ nodejs_package_name }}/lib/node_modules/*
+        src: /tmp/{{ nodejs_package_name }}/lib/node_modules/
         dest: /usr/local/lib/node_modules/
         remote_src: true
         mode: "0755"
