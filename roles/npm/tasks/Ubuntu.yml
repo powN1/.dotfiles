@@ -93,8 +93,7 @@
 
     - name: "Symlink npm/npx executable to /usr/local/bin/"
       ansible.builtin.shell:
-        cmd: ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && 
-          ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npm
+        cmd: ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
 
 # - name: "Install NPM Packages"
 #   community.general.npm:
