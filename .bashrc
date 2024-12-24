@@ -154,6 +154,9 @@ export PATH=$BUN_INSTALL/bin:$PATH
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="/usr/bin:$PATH"
 
+# Include go bin path
+export PATH="/usr/local/go/bin:$PATH"
+
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # cwd to current dir when exiting yazi (y)

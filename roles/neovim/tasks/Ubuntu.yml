@@ -9,6 +9,7 @@
       - unzip
       - ansible-lint
       - ripgrep
+      - python3-venv
     state: present
   become: true
 

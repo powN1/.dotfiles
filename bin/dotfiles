@@ -129,15 +129,6 @@ pushd "$DOTFILES_DIR" 2>&1 > /dev/null
 # Run ansible playbook to install all the things
 ansible-playbook "$DOTFILES_DIR/main.yml" "$@" --ask-become-pass
 
-printf "${LGREEN}Sourcing .bashrc file\n"
-BASH_FILE="$HOME/.bashrc"
-if ! [[ -f "$BASH_FILE" ]] >/dev/null 2>&1; then
-    echo "Error: File $BASH_FILE does not exist. Exiting."
-    exit 1
-else
-    source "$BASH_FILE"
-fi
-
 printf "${LGREEN}Sourcing tmux.conf file\n"
 TMUX_CONF_FILE="~/.dotfiles/.config/tmux/tmux.conf"
 if ! [[ -f "$TMUX_CONF_FILE" ]] >/dev/null 2>&1; then
@@ -145,6 +136,15 @@ if ! [[ -f "$TMUX_CONF_FILE" ]] >/dev/null 2>&1; then
     exit 1
     source "$TMUX_CONF_FILE"
 else
+fi
+
+printf "${LGREEN}Sourcing .bashrc file\n"
+BASH_FILE="$HOME/.bashrc"
+if ! [[ -f "$BASH_FILE" ]] >/dev/null 2>&1; then
+    echo "Error: File $BASH_FILE does not exist. Exiting."
+    exit 1
+else
+    source "$BASH_FILE"
 fi
 
 printf "${GREEN}All installed. Don't forget to reboot for good measure\n"
