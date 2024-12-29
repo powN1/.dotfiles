@@ -2,3 +2,4 @@
 - name: "{{ ansible_distribution }} | Install starship"
   ansible.builtin.shell:
     cmd: curl -sS https://starship.rs/install.sh | sh -s -- -y
+  become: true

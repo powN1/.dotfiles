@@ -1,4 +1,4 @@
-return { 
+return {
   "mrjones2014/smart-splits.nvim",
   init = function()
     local map = vim.keymap.set

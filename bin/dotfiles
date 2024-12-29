@@ -39,7 +39,7 @@ DOTFILES_LOG="$HOME/.dotfiles.log"
 DOTFILES_DIR="$HOME/.dotfiles"
 
 function __task {
-	TASK="$1"
+  TASK="$1"
   # if _task is called while a task was set, complete the previous
   if [[ $TASK != "" ]]; then
     printf "${LGREEN} [✓]  ${LGREEN}${TASK}\n"
@@ -53,16 +53,16 @@ function _cmd {
     touch $DOTFILES_LOG
   fi
   # empty conduro.log
-  > $DOTFILES_LOG
+  >$DOTFILES_LOG
   # hide stdout, on error we print and exit
-  if eval "$1" 1> /dev/null 2> $DOTFILES_LOG; then
+  if eval "$1" 1>/dev/null 2>$DOTFILES_LOG; then
     return 0 # success
   fi
   # read error from log and add spacing
   printf "${OVERWRITE}${LRED} [X]  ${TASK}${LRED}\n"
   while read line; do
     printf "      ${line}\n"
-  done < $DOTFILES_LOG
+  done <$DOTFILES_LOG
   printf "\n"
   # remove log file
   rm $DOTFILES_LOG
@@ -84,33 +84,33 @@ function set_git_credentials {
 }
 
 function ubuntu_setup() {
-	# Checking for Ansible installation
+  # Checking for Ansible installation
   if ! dpkg -s ansible >/dev/null 2>&1; then
-	    __task "Installing Ansible"
-	    _cmd "sudo apt-get update"
-	    _cmd "sudo apt-get install -y software-properties-common"
-	    _cmd "sudo apt-add-repository -y ppa:ansible/ansible"
-	    _cmd "sudo apt-get update"
-	    _cmd "sudo apt-get install -y ansible"
-	    _cmd "sudo apt-get install python3-argcomplete"
-	    _cmd "sudo activate-global-python-argcomplete3"
-	else
-		__task "Ansible already installed"
-	fi
-	# Checking for Python3 installation
-    if ! dpkg -s python3 >/dev/null 2>&1; then
-        __task "Installing Python3"
-        _cmd "sudo apt-get install -y python3"
-    else
-        __task "Python already installed"
-    fi
+    __task "Installing Ansible"
+    _cmd "sudo apt-get update"
+    _cmd "sudo apt-get install -y software-properties-common"
+    _cmd "sudo apt-add-repository -y ppa:ansible/ansible"
+    _cmd "sudo apt-get update"
+    _cmd "sudo apt-get install -y ansible"
+    _cmd "sudo apt-get install python3-argcomplete"
+    _cmd "sudo activate-global-python-argcomplete3"
+  else
+    __task "Ansible already installed"
+  fi
+  # Checking for Python3 installation
+  if ! dpkg -s python3 >/dev/null 2>&1; then
+    __task "Installing Python3"
+    _cmd "sudo apt-get install -y python3"
+  else
+    __task "Python already installed"
+  fi
 }
 
 # If there is not git credentials file then ask user for git credentials
 if ! [[ -f "$HOME/.git-credentials" ]]; then
-	set_git_credentials
+  set_git_credentials
 else
-	printf "${LGREEN}Git credentials exist. Skipping.\n"
+  printf "${LGREEN}Git credentials exist. Skipping.\n"
 fi
 
 ubuntu_setup
@@ -124,29 +124,27 @@ else
 fi
 
 # Cd into dotfiles dir
-pushd "$DOTFILES_DIR" 2>&1 > /dev/null
+pushd "$DOTFILES_DIR" 2>&1 >/dev/null
 
 # Run ansible playbook to install all the things
 ansible-playbook "$DOTFILES_DIR/main.yml" "$@" --ask-become-pass
 
 printf "${LGREEN}Sourcing tmux.conf file\n"
-TMUX_CONF_FILE="~/.dotfiles/.config/tmux/tmux.conf"
-if ! [[ -f "$TMUX_CONF_FILE" ]] >/dev/null 2>&1; then
-    echo "Error: File $TMUX_CONF_FILE does not exist. Exiting."
-    exit 1
+TMUX_CONF_FILE="$HOME/.dotfiles/.config/tmux/tmux.conf"
+if [[ -f "$TMUX_CONF_FILE" ]] >/dev/null 2>&1; then
+  tmux source "$TMUX_CONF_FILE"
+  echo "tmux.conf file sourced"
 else
-    source "$TMUX_CONF_FILE"
-    echo "tmux.conf file sourced"
+  echo "Error: Sourcing $TMUX_CONF_FILE failed. Exiting."
 fi
 
 printf "${LGREEN}Sourcing .bashrc file\n"
 BASH_FILE="$HOME/.bashrc"
-if ! [[ -f "$BASH_FILE" ]] >/dev/null 2>&1; then
-    echo "Error: File $BASH_FILE does not exist. Exiting."
-    exit 1
+if [[ -f "$BASH_FILE" ]] >/dev/null 2>&1; then
+  source "$BASH_FILE"
+  echo ".bashrc file sourced"
 else
-    source "$BASH_FILE"
-    echo ".bashrc file sourced"
+  echo "Error: Sourcing $BASH_FILE failed. Exiting."
 fi
 
 printf "${GREEN}All installed. Don't forget to reboot for good measure\n"

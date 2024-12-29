@@ -1,6 +1,7 @@
--- Rainbow brackets
 return {
   "HiPhish/rainbow-delimiters.nvim",
+  lazy = true,
+  event = "BufReadPost",
   config = function()
     require("rainbow-delimiters.setup").setup {
       blacklist = { "html" },
@@ -20,6 +21,4 @@ return {
       },
     }
   end,
-  -- Has to be loaded on startup in order to work from the get-go
-  lazy = false,
 }

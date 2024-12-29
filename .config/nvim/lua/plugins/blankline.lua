@@ -1,6 +1,20 @@
 return {
   "lukas-reineke/indent-blankline.nvim",
-  init = function()
+  main = "ibl",
+  ---@module "ibl"
+  ---@type ibl.config
+  opts = {},
+  event = "BufReadPre",
+  config = function()
+    require("ibl").setup({
+      indent = {
+        char = "▏", -- This is a slightly thinner char than the default one, check :help ibl.config.indent.char
+      },
+      scope = {
+        show_start = false,
+        show_end = false,
+      },
+    })
     local map = vim.keymap.set
 
     map("n", "<leader>cc", function()

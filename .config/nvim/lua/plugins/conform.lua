@@ -10,20 +10,29 @@ return {
     end,
     opts = {
       formatters_by_ft = {
-        -- clang should work by default
+        lua = { "stylua" },
+
+        c = { "clang-format" },
+        cpp = { "clang-format" },
+
+        html = { "prettierd" },
         css = { "prettierd" },
         scss = { "prettierd" },
-        html = { "prettierd" },
+        sass = { "prettierd" },
         javascript = { "prettierd" },
         javascriptreact = { "prettierd" },
-        json = { "biome" },
-        jsonc = { "biome" },
+        typescript = { "prettierd" },
+        typescriptreact = { "prettierd" },
+        json = { "prettierd" },
+        jsonc = { "prettierd" },
         markdown = { "prettierd" },
-        typescript = { "biome" },
-        typescriptreact = { "biome" },
-        lua = { "stylua" },
+        yaml = { "prettierd" },
+
         toml = { "taplo" },
-        bash = { "shellcheck" }
+        sh = { "shfmt" },
+        python = { "black" },
+        go = { "gofumpt" },
+        rust = { "rustfmt" },
       },
       -- Custom configs for formatters
       formatters = {
@@ -31,10 +40,10 @@ return {
         prettierd = {
           command = "prettierd",
           args = { "--stdin-filepath", "$FILENAME" }, -- Ensure only one file is passed
-          stdin = true, -- Pass content via stdin
+          stdin = true,                               -- Pass content via stdin
           env = {
-            -- Specify the path to your global Prettier config
-            PRETTIERD_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/.prettierrc.json"), -- Path to your global config
+            -- Path to the .prettierd.json in nvim directory
+            PRETTIERD_DEFAULT_CONFIG = vim.fn.expand(vim.fn.stdpath("config") .. "/prettierrc.json"),
           },
         },
       },

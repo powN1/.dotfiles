@@ -1,6 +1,6 @@
 return {
   "folke/which-key.nvim",
-  init = function()
+  config = function()
     local map = vim.keymap.set
 
     map("n", "<leader>wK", "<cmd>WhichKey <CR>", { desc = "WhichKey show all keymaps" })

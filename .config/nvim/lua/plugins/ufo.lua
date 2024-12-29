@@ -6,12 +6,13 @@ return {
       "luukvbaal/statuscol.nvim",
       config = function()
         local builtin = require "statuscol.builtin"
+
         require("statuscol").setup {
           -- Ft ignore is for disabling statuscol indenting for certain filetypes (buffers, like terminal etc).
           -- It gets rid of the space between the buffer and the very left edge (foldcolumn = 0)
           -- Same filetypes should be disabled for ufo plugin too (ufo.lua file)
           -- You can get filetypes with vim.bo.filetype
-          ft_ignore = { "nvcheatsheet", "NvimTree", "terminal", "nvdash", "Trouble" },
+          ft_ignore = { "NvimTree", "terminal", "Trouble" },
           -- setopt = true,
           relculright = true,
           segments = {
@@ -21,13 +22,16 @@ return {
             -- Diagnostics icons
             -- { sign = { namespace = { "diagnostic/signs" }, maxwidth = 1 }, click = "v:lua.ScSa" },
 
+            -- Signs (errors, gitsigns, breakpoints etc)
+            { text = { "%s" }, click = "v:lua.ScSa" },
             -- Errors and gitsigns in the same row. Error have higher priority.
-            {
-              sign = { namespace = { "diagnostic/signs", "gitsigns" }, maxwidth = 1, colwidth = 1, auto = false },
-              click = "v:lua.ScSa",
-            },
+            -- {
+            --   sign = { namespace = { "diagnostic/signs", "gitsigns", }, maxwidth = 1, colwidth = 1, auto = false },
+            --   click = "v:lua.ScSa",
+            -- },
 
-            { text = { " " } },
+            -- Space between diagnostic icons and line numbers
+            -- { text = { " " } },
 
             -- Line numbers
             { text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
@@ -96,7 +100,7 @@ return {
     -- It gets rid of the space between the buffer and the very left edge (foldcolumn = 0)
     -- Same filetypes should be disabled for statuscol plugin too (statuscol.lua file)
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "nvcheatsheet", "NvimTree", "terminal", "nvdash", "Trouble" },
+      pattern = { "NvimTree", "terminal", "Trouble" },
       callback = function()
         require("ufo").detach()
         vim.opt_local.foldenable = false
