@@ -10,6 +10,7 @@
       - 'rsync'
       - 'tar'
       - 'jq'
+      - 'delve'
     state: present
   register: apt_result
   become: true

@@ -134,8 +134,9 @@ TMUX_CONF_FILE="~/.dotfiles/.config/tmux/tmux.conf"
 if ! [[ -f "$TMUX_CONF_FILE" ]] >/dev/null 2>&1; then
     echo "Error: File $TMUX_CONF_FILE does not exist. Exiting."
     exit 1
-    source "$TMUX_CONF_FILE"
 else
+    source "$TMUX_CONF_FILE"
+    echo "tmux.conf file sourced"
 fi
 
 printf "${LGREEN}Sourcing .bashrc file\n"
@@ -145,6 +146,7 @@ if ! [[ -f "$BASH_FILE" ]] >/dev/null 2>&1; then
     exit 1
 else
     source "$BASH_FILE"
+    echo ".bashrc file sourced"
 fi
 
 printf "${GREEN}All installed. Don't forget to reboot for good measure\n"
