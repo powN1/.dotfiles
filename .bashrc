@@ -157,6 +157,9 @@ export PATH="/usr/bin:$PATH"
 # Include go bin path
 export PATH="/usr/local/go/bin:$PATH"
 
+# Include rust bin path
+export PATH="$HOME/.cargo/env:$PATH"
+
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # cwd to current dir when exiting yazi (y)

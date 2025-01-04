@@ -10,8 +10,11 @@ map("v", ">", ">gv", { desc = "Indent" })
 -- map("i", "jk", "<ESC>", { desc = "Exit insert mode" })
 
 map("n", "<leader>of", function()
-	vim.ui.open(vim.fn.expand("%:p:h"))
-end, { desc = "Open file location in file explorer" })
+	-- 	vim.ui.open(vim.fn.expand("%:p:h"))
+
+	-- Execute the 'explorer.exe .' command with the current directory
+	os.execute("explorer.exe .")
+end, { desc = "Open file location in Windows Explorer" })
 
 -- Switch between windows
 map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
@@ -47,6 +50,9 @@ map("n", "<leader>x", "<cmd>:bd<CR>")
 
 -- Save
 map({ "n", "i", "v" }, "<C-s>", "<ESC><cmd>w<CR>", { desc = "Save file" })
+
+-- Copy whole file
+map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "Copy whole file" })
 
 -- These mappings control the size of splits (height/width)
 -- Disabled for now as I use smart-splits for that
