@@ -5,7 +5,9 @@ $os\
 $directory\
 $git_branch\
 $git_status\
-$fill\
+$character\
+"""
+right_format = """
 $status\
 $cmd_duration\
 $java\
@@ -20,8 +22,6 @@ $time\
 $shell\
 $username\
 $hostname \
-$line_break\
-$character\
 """
 add_newline = false
 
@@ -71,7 +71,7 @@ style = 'bold bright-cyan'
 read_only_style = 'red'
 home_symbol = "~"
 truncation_symbol = '…/'
-truncation_length = 3
+truncation_length = 1
 read_only = ' 🔒'
 use_os_path_sep = true
 #fish_style_pwd_dir_length = 1
@@ -198,14 +198,14 @@ disabled = false
 
 [time]
 #  🕙                  |
-format = '[ ](bold 248)[$time]($style) '
+format = '[ ](bold 248)[$time]($style) '
 style = 'bold bright-cyan'
 time_format = '%H:%M'
 use_12hr = false
 disabled = false
 
 [shell] #      _ |
-format = '[ ](bold 248)[$indicator]($style) '
+format = '[ ](bold 248)[$indicator]($style) '
 style = 'bold bright-blue'
 unknown_indicator = 'shell'
 powershell_indicator = 'powershell'

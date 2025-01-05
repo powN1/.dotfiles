@@ -138,13 +138,16 @@ else
   echo "Error: Sourcing $BASH_FILE failed. Exiting."
 fi
 
-printf "${LGREEN}Sourcing tmux.conf file\n"
-TMUX_CONF_FILE="$HOME/.dotfiles/.config/tmux/tmux.conf"
-if [[ -f "$TMUX_CONF_FILE" ]] >/dev/null 2>&1; then
-  tmux && tmux source "$TMUX_CONF_FILE"
-  echo "tmux.conf file sourced"
-else
-  echo "Error: Sourcing $TMUX_CONF_FILE failed. Exiting."
-fi
+printf "${LGREEN}Setting zsh as the default shell\n"
+chsh -s $(which zsh)
 
-printf "${GREEN}All installed. Don't forget to reboot for good measure\n"
+# printf "${LGREEN}Sourcing tmux.conf file\n"
+# TMUX_CONF_FILE="$HOME/.dotfiles/.config/tmux/tmux.conf"
+# if [[ -f "$TMUX_CONF_FILE" ]] >/dev/null 2>&1; then
+#   tmux && tmux source "$TMUX_CONF_FILE"
+#   echo "tmux.conf file sourced"
+# else
+#   echo "Error: Sourcing $TMUX_CONF_FILE failed. Exiting."
+# fi
+
+printf "${GREEN}All installed. Don't forget to reboot!\n"
