@@ -4,15 +4,45 @@ opt.clipboard = "unnamedplus"
 -- opt.cursorline = true
 -- opt.cursorlineopt = "both"
 
--- Statusline
+----------------- Statusline -----------------
 function _G.open_buffer_count()
 	local buffers = vim.fn.getbufinfo({ buflisted = 1 })
 	return #buffers
 end
 
-vim.o.statusline = "%=(%{v:lua.open_buffer_count()}) %f%m%="
+--               |
+function _G.git_branch()
+	local branch = vim.fn.system("git branch --show-current 2>/dev/null")
+	return branch:gsub("\n", "")
+end
 
-vim.api.nvim_set_hl(0, "Statusline", { fg = "#eeeeee" })
+function _G.centered_statusline()
+	local bufferCount = open_buffer_count()
+	local filePath = vim.fn.expand("%f%m")
+	local center = "(" .. bufferCount .. ") " .. filePath
+
+	local branch = git_branch()
+	local left = "  " .. branch
+	if branch == "" then
+		left = ""
+	end
+
+	local width = vim.o.columns
+	local left_width = vim.fn.strwidth(left) -- Width of the left content
+	local center_width = vim.fn.strwidth(center)
+
+	local padding = ((width - left_width - center_width) / 2 - (left_width / 2))
+
+	-- Build the statusline
+	return left .. string.rep(" ", padding) .. center
+end
+
+-- Set the statusline
+-- vim.o.statusline = "%=(%{v:lua.open_buffer_count()}) %f%m%="
+vim.o.statusline = "%!v:lua.centered_statusline()"
+
+-- vim.api.nvim_set_hl(0, "Statusline", { fg = "#eeeeee" })
+----------------------------------------------
 
 -- Numbers
 opt.number = true
