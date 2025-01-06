@@ -2,13 +2,18 @@ return {
 	"saghen/blink.cmp",
 	event = { "InsertEnter", "CmdlineEnter" },
 	lazy = true,
-	-- optional: provides snippets for the snippet source
 	dependencies = {
+		{
+			-- snippet plugin
+			"L3MON4D3/LuaSnip",
+			build = "make install_jsregexp",
+			opts = { history = true, updateevents = "TextChanged,TextChangedI" },
+			event = "BufReadPre",
+		},
 		{ "rafamadriz/friendly-snippets", event = "BufReadPre" },
 		-- nvim-autopairs for automatic brackets when autocompleting
 		{ "windwp/nvim-autopairs", event = "InsertEnter", config = true },
 	},
-	build = "make install_jsregexp",
 	version = "*",
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
@@ -33,15 +38,17 @@ return {
 			["<Tab>"] = {
 				function(cmp)
 					if vim.fn.mode() == "c" then
-            -- Show menu and select first (since blink.cmp is not providing the method to do it yet)
+						-- Show menu and select first (since blink.cmp is not providing the method to do it yet)
 						if cmp.is_visible() == false then
-							local next = function() return cmp.select_next() end
+							local next = function()
+								return cmp.select_next()
+							end
 							return cmp.show({ callback = next })
 						end
 					end
 				end,
-				"select_next",
 				"snippet_forward",
+				"select_next",
 				"fallback",
 			},
 			["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
@@ -65,7 +72,7 @@ return {
 				-- selection = function(ctx)
 				-- 	return ctx.mode == "cmdline" and "auto_insert" or "auto_insert"
 				-- end,
-        selection = "auto_insert",
+				selection = "auto_insert",
 				max_items = 25,
 			},
 
@@ -78,6 +85,7 @@ return {
 					border = "single",
 				},
 			},
+
 			menu = {
 				auto_show = function(ctx)
 					return ctx.mode ~= "cmdline"
@@ -96,6 +104,7 @@ return {
 				},
 			},
 		},
+
 		appearance = {
 			-- Sets the fallback highlight groups to nvim-cmp's highlight groups
 			-- Useful for when your theme doesn't support blink.cmp
@@ -105,6 +114,22 @@ return {
 			-- Adjusts spacing to ensure icons are aligned
 			nerd_font_variant = "mono",
 		},
+
+		snippets = {
+			expand = function(snippet)
+				require("luasnip").lsp_expand(snippet)
+			end,
+			active = function(filter)
+				if filter and filter.direction then
+					return require("luasnip").jumpable(filter.direction)
+				end
+				return require("luasnip").in_snippet()
+			end,
+			jump = function(direction)
+				require("luasnip").jump(direction)
+			end,
+		},
+
 		-- Default list of enabled providers defined so that you can extend it
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
