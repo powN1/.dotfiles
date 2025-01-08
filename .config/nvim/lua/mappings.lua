@@ -54,6 +54,9 @@ map({ "n", "i", "v" }, "<C-s>", "<ESC><cmd>w<CR>", { desc = "Save file" })
 -- Copy whole file
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "Copy whole file" })
 
+-- terminal
+  map("t", "<C-q>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+
 -- These mappings control the size of splits (height/width)
 -- Disabled for now as I use smart-splits for that
 -- map("n", "<C-Left>", "<c-w>5<")

@@ -26,9 +26,7 @@ table.insert(plugins, { import = "plugins.dap" })
 table.insert(plugins, { import = "plugins.gitsigns" })
 table.insert(plugins, { import = "plugins.live-server" })
 -- table.insert(plugins, { import = "plugins.statusline" })
--- table.insert(plugins, { import = "plugins.spec.neogit" })
 -- table.insert(plugins, { import = "plugins.spec.todo-comments" })
 -- table.insert(plugins, { import = "plugins.spec.leap" })
--- table.insert(plugins, { import = "plugins.override.luasnip" })
 
 return plugins
