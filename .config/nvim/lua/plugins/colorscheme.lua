@@ -8,13 +8,13 @@ return {
 		"rafi/awesome-vim-colorschemes",
 	},
 	init = function()
-		-- require("rose-pine").setup({
-		--   styles = {
-		--     bold = true,
-		--     italic = false,
-		--     transparency = false,
-		--   },
-		-- })
+		require("rose-pine").setup({
+		  styles = {
+		    bold = true,
+		    italic = false,
+		    -- transparency = false,
+		  },
+		})
 		require("transparent").setup({
 			extra_groups = {
 				"NormalFloat",
@@ -194,6 +194,6 @@ return {
 		end
 
 		-- enableTransparency()
-		disableItalic()
+		-- disableItalic()
 	end,
 }

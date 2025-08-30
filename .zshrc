@@ -10,9 +10,10 @@ KEYTIMEOUT=1
 # Enable colors and change prompt:
 autoload -U colors && colors
 
+HISTFILE=~/.cache/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
-HISTFILE=~/.cache/zsh/history
+setopt appendhistory
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -97,6 +98,8 @@ alias gl='git log --oneline'
 alias gc='git checkout'
 
 alias lg='lazygit'
+
+alias digi='ssh -i ~/.ssh/doUbuntu pown@138.197.187.65'
 #############################
 
 # Set default editor to nvim
@@ -110,3 +113,6 @@ if [[ "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select" || \
 fi
 eval "$(starship init zsh)"
 
+
+# bun completions
+[ -s "/home/pown/.bun/_bun" ] && source "/home/pown/.bun/_bun"

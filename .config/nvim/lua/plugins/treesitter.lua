@@ -36,7 +36,7 @@ return {
       -- Automatically install missing parsers when entering buffer
 
       indent = {
-        enable = true,
+        enable = false,
         disable = { "html" }
       },
 

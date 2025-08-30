@@ -19,16 +19,16 @@ return {
 	---@type blink.cmp.Config
 	opts = {
 		-- Disable cmp for comments
-		enabled = function()
-			local in_prompt = vim.api.nvim_buf_get_option(0, "buftype") == "prompt"
-			local in_oil = vim.api.nvim_buf_get_option(0, "filetype") == "oil"
-			if in_prompt or in_oil then -- Disable cmp in telescope and oil
-				return false
-			end
-
-			local context = require("cmp.config.context")
-			return not (context.in_treesitter_capture("comment") == true or context.in_syntax_group("Comment"))
-		end,
+		-- enabled = function()
+		-- 	local in_prompt = vim.api.nvim_buf_get_option(0, "buftype") == "prompt"
+		-- 	local in_oil = vim.api.nvim_buf_get_option(0, "filetype") == "oil"
+		-- 	if in_prompt or in_oil then -- Disable cmp in telescope and oil
+		-- 		return false
+		-- 	end
+		--
+		-- 	local context = require("cmp.config.context")
+		-- 	return not (context.in_treesitter_capture("comment") == true or context.in_syntax_group("Comment"))
+		-- end,
 		-- 'default' for mappings similar to built-in completion
 		-- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
 		-- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
@@ -44,11 +44,12 @@ return {
 								return cmp.select_next()
 							end
 							return cmp.show({ callback = next })
+							-- return cmp.show()
 						end
 					end
 				end,
-				"snippet_forward",
 				"select_next",
+				"snippet_forward",
 				"fallback",
 			},
 			["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
@@ -67,19 +68,22 @@ return {
 				},
 			},
 
-			-- Dont autoselect the option only when clicked
+			-- Preselect only for commands
 			list = {
-				-- selection = function(ctx)
-				-- 	return ctx.mode == "cmdline" and "auto_insert" or "auto_insert"
-				-- end,
-				selection = "auto_insert",
-				max_items = 25,
+				selection = {
+					auto_insert = true,
+					-- preselect = function(ctx)
+					-- 	return ctx.mode == "cmdline" and true or false
+					-- end
+					preselect = false,
+				},
+				max_items = 7,
 			},
 
 			documentation = {
 				auto_show = true,
 				auto_show_delay_ms = 0,
-				update_delay_ms = 0,
+				update_delay_ms = 50,
 				treesitter_highlighting = true,
 				window = {
 					border = "single",
@@ -134,6 +138,17 @@ return {
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer" },
+			providers = {
+				snippets = {
+					score_offset = -3,
+					opts = {
+						friendly_snippets = true,
+					},
+				},
+				buffer = {
+					min_keyword_length = 4,
+				},
+			},
 		},
 	},
 	opts_extend = { "sources.default" },
