@@ -9,11 +9,14 @@ return {
 	},
 	init = function()
 		require("rose-pine").setup({
-		  styles = {
-		    bold = true,
-		    italic = false,
-		    -- transparency = false,
-		  },
+			styles = {
+				bold = false,
+				italic = false,
+				transparency = true,
+			},
+			highlight_groups = {
+				TelescopeSelection = { bg = "love", blend = 15 },
+			},
 		})
 		require("transparent").setup({
 			extra_groups = {

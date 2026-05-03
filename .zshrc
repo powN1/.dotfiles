@@ -67,6 +67,9 @@ export PATH=$BUN_INSTALL/bin:$PATH
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="/usr/bin:$PATH"
 
+# Flutter
+export PATH="$HOME/flutter/bin:$PATH"
+
 # Include go bin path
 export PATH="/usr/local/go/bin:$PATH"
 
@@ -116,3 +119,16 @@ eval "$(starship init zsh)"
 
 # bun completions
 [ -s "/home/pown/.bun/_bun" ] && source "/home/pown/.bun/_bun"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="$HOME/.local/bin:$PATH"
+
+# Android studio setup (windows)
+alias adb="/usr/lib/android-sdk/platform-tools/adb"
+export WSL_HOST_IP="$(tail -1 /etc/resolv.conf | cut -d' ' -f2)"
+export ADB_SERVER_SOCKET=tcp:$WSL_HOST_IP:5037
+export ANDROID_HOME=/usr/lib/android-sdk
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64

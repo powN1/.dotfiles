@@ -85,6 +85,7 @@ return {
 				"ts_ls",
 				"cssls", -- css/sass
 				"tailwindcss",
+				"svelte",
 				-- C/C++
 				"clangd",
 				-- Python
@@ -170,9 +171,22 @@ return {
 
 		local border = "single"
 
+		-- local handlers = {
+		-- 	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+		-- 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+		-- }
 		local handlers = {
-			["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-			["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+			["textDocument/hover"] = function(err, result, ctx, config)
+				config = config or {}
+				config.border = border
+				return vim.lsp.handlers.hover(err, result, ctx, config)
+			end,
+
+			["textDocument/signatureHelp"] = function(err, result, ctx, config)
+				config = config or {}
+				config.border = border
+				return vim.lsp.handlers.signature_help(err, result, ctx, config)
+			end,
 		}
 		require("lspconfig.ui.windows").default_options.border = "single"
 

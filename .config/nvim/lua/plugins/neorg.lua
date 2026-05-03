@@ -5,6 +5,11 @@ return {
 	config = function()
 		require("neorg").setup({
 			load = {
+				["core.integrations.treesitter"] = {
+					config = {
+						parser = "off",
+					},
+				},
 				["core.defaults"] = {},
 				["core.concealer"] = {}, -- We added this line!
 				["core.ui"] = {},
