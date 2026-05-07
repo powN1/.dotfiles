@@ -125,10 +125,14 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PATH="$HOME/.local/bin:$PATH"
 
-# Android studio setup (windows)
+# Android studio setup
 alias adb="/usr/lib/android-sdk/platform-tools/adb"
-export WSL_HOST_IP="$(tail -1 /etc/resolv.conf | cut -d' ' -f2)"
-export ADB_SERVER_SOCKET=tcp:$WSL_HOST_IP:5037
 export ANDROID_HOME=/usr/lib/android-sdk
 export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/emulator
+export JAVA_HOME=/snap/android-studio/209/jbr
+export PATH=$JAVA_HOME/bin:$PATH
+
+# C# dotnet
+export PATH="$PATH:/home/pown/.dotnet/tools"

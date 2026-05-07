@@ -15,6 +15,8 @@ return {
 				c = { "clang-format" },
 				cpp = { "clang-format" },
 
+				cs = { "csharpier" },
+
 				html = { "prettierd" },
 				css = { "prettierd" },
 				scss = { "prettierd" },

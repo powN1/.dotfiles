@@ -184,9 +184,7 @@ export EDITOR=nvim
 # alias lazygit="lazygit --use-config-file=$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/frappe-peach.yml"
 
 # Android studio setup (windows)
-alias adb="/usr/lib/android-sdk/platform-tools/adb"
-export WSL_HOST_IP="$(tail -1 /etc/resolv.conf | cut -d' ' -f2)"
-export ADB_SERVER_SOCKET=tcp:$WSL_HOST_IP:5037
+#alias adb="/usr/lib/android-sdk/platform-tools/adb"
 export ANDROID_HOME=/usr/lib/android-sdk
 export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 

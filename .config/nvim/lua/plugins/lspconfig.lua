@@ -1,4 +1,4 @@
--- LSP servers and clients communicate which features they support through "capabilities".
+-- MSP servers and clients communicate which features they support through "capabilities".
 --  By default, Neovim supports a subset of the LSP specification.
 --  With blink.cmp, Neovim has *more* capabilities which are communicated to the LSP servers.
 --  Explanation from TJ: https://youtu.be/m8C0Cq9Uv9o?t=1275
@@ -40,6 +40,9 @@ return {
 			tailwindcss = {},
 			-- C/C++
 			clangd = {},
+			-- C#
+			-- omnisharp = {},
+			-- csharp_ls = {},
 			-- Python
 			pyright = {},
 			-- vim
@@ -52,13 +55,16 @@ return {
 			rust_analyzer = {},
 			-- Prisma
 			prismals = {},
-			-- vue
-			volar = {},
 		},
 	},
 
 	config = function(_, opts)
-		require("mason").setup({})
+		require("mason").setup({
+			registries = {
+				"github:mason-org/mason-registry",
+				"github:Crashdummyy/mason-registry",
+			},
+		})
 		require("mason-tool-installer").setup({
 			ensure_installed = {
 				-- lua
@@ -73,6 +79,8 @@ return {
 				"rustfmt",
 				-- shell/bash
 				"shfmt",
+				-- c#
+				"csharpier",
 			},
 		})
 		require("mason-lspconfig").setup({
@@ -88,6 +96,9 @@ return {
 				"svelte",
 				-- C/C++
 				"clangd",
+				-- C#
+				-- "omnisharp",
+				-- "csharp_ls",
 				-- Python
 				"pyright",
 				-- vim
@@ -100,8 +111,6 @@ return {
 				"rust_analyzer",
 				-- Prisma
 				"prismals",
-				-- vue
-				"volar",
 			},
 		})
 
@@ -190,15 +199,19 @@ return {
 		}
 		require("lspconfig.ui.windows").default_options.border = "single"
 
-		-- LSP settings (for overriding per client)
+		-- Global default config applied to ALL servers (the '*' wildcard)
+		vim.lsp.config("*", {
+			capabilities = require("blink.cmp").get_lsp_capabilities(),
+		})
 
-		local lspconfig = require("lspconfig")
-		for server, config in pairs(opts.servers) do
-			-- passing config.capabilities to blink.cmp merges with the capabilities in your
-			-- `opts[server].capabilities, if you've defined it
-			config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-			config.handlers = handlers
-			lspconfig[server].setup(config)
+		-- Per-server overrides + enable
+		local servers = vim.tbl_keys(opts.servers or {})
+		for _, name in ipairs(servers) do
+			local server_opts = opts.servers[name]
+			if server_opts and not vim.tbl_isempty(server_opts) then
+				vim.lsp.config(name, server_opts)
+			end
 		end
+		vim.lsp.enable(servers)
 	end,
 }
