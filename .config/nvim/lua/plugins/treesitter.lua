@@ -1,81 +1,119 @@
 return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  event = { "BufReadPost", "BufNewFile" },
-  dependencies = { "nvim-treesitter/playground" },
-  config = function()
-    require("nvim-treesitter.configs").setup({
-      -- A list of parser names, or "all"
-      ensure_installed = {
-        "bash",
-        "c",
-        "cpp",
-        "css",
-        "html",
-        "http",
-        "javascript",
-        "json",
-        "jsdoc",
-        "go",
-        "norg",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "rust",
-        "toml",
-        "typescript",
-        "scss",
-        "yaml",
-        "vim",
-        "vimdoc",
-      },
+	"nvim-treesitter/nvim-treesitter",
+	branch = "main",
+	build = ":TSUpdate",
+	lazy = false,
+	config = function()
+		local ts = require("nvim-treesitter")
 
-      -- Install parsers synchronously (only applied to `ensure_installed`)
-      sync_install = false,
+		ts.setup({})
 
-      -- Automatically install missing parsers when entering buffer
+		-- Parsers to install
+		local parsers = {
+			"bash",
+			"c",
+			"cpp",
+			"c_sharp",
+			"css",
+			"html",
+			"http",
+			"javascript",
+			"json",
+			"jsdoc",
+			"go",
+			-- "norg",
+			"lua",
+			"markdown",
+			"markdown_inline",
+			"python",
+			"rust",
+			"toml",
+			"typescript",
+			"scss",
+			"yaml",
+			"vim",
+			"vimdoc",
+		}
 
-      indent = {
-        enable = false,
-        disable = { "html" }
-      },
+		-- Install parsers asynchronously on startup
+		-- (already-installed parsers are skipped, so this is cheap on subsequent launches)
+		ts.install(parsers, { summary = false })
 
-      highlight = {
-        -- `false` will disable the whole extension
-        enable = true,
-        disable = function(lang, buf)
-          local max_filesize = 100 * 1024 -- 100 KB
-          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-          if ok and stats and stats.size > max_filesize then
-            vim.notify(
-              "File larger than 100KB treesitter disabled for performance",
-              vim.log.levels.WARN,
-              { title = "Treesitter" }
-            )
-            return true
-          end
-        end,
+		-- Filetypes that should activate treesitter features
+		-- Note: parser names sometimes differ from filetypes (e.g. c_sharp parser → cs filetype)
+		local filetypes = {
+			"bash",
+			"sh",
+			"c",
+			"cpp",
+			"cs", -- C# filetype uses c_sharp parser
+			"css",
+			"html",
+			"http",
+			"javascript",
+			"javascriptreact",
+			"json",
+			"jsdoc",
+			"go",
+			"norg",
+			"lua",
+			"markdown",
+			"python",
+			"rust",
+			"toml",
+			"typescript",
+			"typescriptreact",
+			"scss",
+			"yaml",
+			"vim",
+			"help", -- vimdoc uses 'help' filetype
+		}
 
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on "syntax" being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = { "markdown" },
-      },
+		-- File size limit for treesitter highlighting
+		local max_filesize = 100 * 1024 -- 100 KB
 
-      playground = { enable = true }
-    })
+		vim.api.nvim_create_autocmd("FileType", {
+			group = vim.api.nvim_create_augroup("user.treesitter", { clear = true }),
+			pattern = filetypes,
+			callback = function(args)
+				local buf = args.buf
 
-    local treesitter_parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-    treesitter_parser_config.templ = {
-      install_info = {
-        url = "https://github.com/vrischmann/tree-sitter-templ.git",
-        files = { "src/parser.c", "src/scanner.c" },
-        branch = "master",
-      },
-    }
+				-- Skip large files
+				local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+				if ok and stats and stats.size > max_filesize then
+					vim.notify("File larger than 100KB, treesitter disabled for performance", vim.log.levels.WARN, { title = "Treesitter" })
+					return
+				end
 
-    vim.treesitter.language.register("templ", "templ")
-  end
+				-- Enable highlighting
+				pcall(vim.treesitter.start, buf)
+
+				-- Indent (was disabled in your old config — keeping it disabled)
+				-- Uncomment the next line if you want treesitter-based indenting:
+				-- vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+				-- Folding via treesitter (optional, not in your old config)
+				-- vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+				-- vim.wo.foldmethod = "expr"
+			end,
+		})
+
+		-- Keep regex syntax highlighting alongside treesitter for markdown
+		-- (was `additional_vim_regex_highlighting = { "markdown" }` in old API)
+		vim.api.nvim_create_autocmd("FileType", {
+			group = vim.api.nvim_create_augroup("user.treesitter.markdown", { clear = true }),
+			pattern = "markdown",
+			callback = function()
+				vim.bo.syntax = "ON"
+			end,
+		})
+
+		-- Custom parser: templ
+		-- The new API uses vim.treesitter.language.add() instead of registering via parsers config
+		vim.treesitter.language.register("templ", "templ")
+		-- Note: For custom parsers not in nvim-treesitter's registry, you'll need to install
+		-- the parser manually or use a TSUpdate event hook. Most users now rely on the
+		-- ~150 parsers shipped with nvim-treesitter. If templ isn't included, see:
+		-- https://github.com/nvim-treesitter/nvim-treesitter/blob/main/doc/nvim-treesitter.txt
+	end,
 }
